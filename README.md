@@ -17,14 +17,15 @@ A context-aware support assistant built with Streamlit and Google's Gemini SDK. 
    .\.venv-vscode\Scripts\python.exe -m pip install -r requirements.txt
    ```
 
-3. Set the API key for this terminal session and launch the app:
+3. Enter the API key securely for this terminal session and launch the app on port 8501:
 
    ```powershell
-   $env:GOOGLE_API_KEY = "your-key"
-   .\.venv-vscode\Scripts\python.exe -m streamlit run app.py
+   $secureKey = Read-Host "Enter Google API key" -AsSecureString
+   $env:GOOGLE_API_KEY = [System.Net.NetworkCredential]::new("", $secureKey).Password
+   .\.venv-vscode\Scripts\python.exe -m streamlit run app.py --server.port 8501
    ```
 
-The app opens without an API key so you can inspect the interface. Gemini replies require a valid `GOOGLE_API_KEY`; never commit real credentials.
+The app opens without an API key so you can inspect the interface. Gemini replies require a valid `GOOGLE_API_KEY`; never commit real credentials. The key is available to the app process as plaintext while it runs, so use a trusted terminal and close it when finished.
 
 ## Design and safety
 
